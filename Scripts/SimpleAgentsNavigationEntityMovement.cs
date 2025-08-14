@@ -400,9 +400,7 @@ namespace MultiplayerARPG
                 _targetYAngle = Quaternion.LookRotation(replaceMovementForceApplier.Direction).eulerAngles.y;
                 // Change move speed to dash force
                 if (CacheAgentNavMesh.HasEntityPath)
-                {
                     CacheAgent.Stop();
-                }
                 EntityTransform.position += replaceMovementForceApplier.CurrentSpeed * replaceMovementForceApplier.Direction * deltaTime;
             }
 
@@ -423,8 +421,10 @@ namespace MultiplayerARPG
                     // Moving by WASD keys
                     MovementState |= MovementState.Forward;
                     ExtraMovementState = this.ValidateExtraMovementState(MovementState, _tempExtraMovementState);
-                    SetAgentMoveSpeed(Entity.GetMoveSpeed(MovementState, ExtraMovementState));
-                    EntityTransform.position += _inputDirection * CacheAgent.EntityLocomotion.Speed * deltaTime;
+                    if (CacheAgentNavMesh.HasEntityPath)
+                        CacheAgent.Stop();
+                    float speed = Entity.GetMoveSpeed(MovementState, ExtraMovementState);
+                    EntityTransform.position += _inputDirection * speed * deltaTime;
                     // Turn character to destination
                     if (_lookRotationApplied && Entity.CanTurn())
                         _targetYAngle = Quaternion.LookRotation(_inputDirection).eulerAngles.y;
@@ -435,7 +435,8 @@ namespace MultiplayerARPG
                     bool isMoving = math.length(CacheAgent.EntityBody.Velocity) > MIN_MAGNITUDE_TO_DETERMINE_MOVING;
                     MovementState |= isMoving ? MovementState.Forward : MovementState.None;
                     ExtraMovementState = this.ValidateExtraMovementState(MovementState, _tempExtraMovementState);
-                    SetAgentMoveSpeed(Entity.GetMoveSpeed(MovementState, ExtraMovementState));
+                    float speed = Entity.GetMoveSpeed(MovementState, ExtraMovementState);
+                    SetAgentMoveSpeed(speed);
                     // Turn character to destination
                     if (isMoving && _lookRotationApplied && Entity.CanTurn())
                         _targetYAngle = Quaternion.LookRotation(math.normalize(CacheAgent.EntityBody.Velocity)).eulerAngles.y;
@@ -447,9 +448,9 @@ namespace MultiplayerARPG
         {
             if (Mathf.Approximately(CacheAgent.EntityBody.Speed, speed))
                 return;
-
             AgentBody entityBody = CacheAgent.EntityBody;
-            float currentSpeed = entityBody.Speed;
+            if (math.lengthsq(entityBody.Velocity) <= MIN_DIRECTION_SQR_MAGNITUDE)
+                return;
             entityBody.Velocity = math.normalize(entityBody.Velocity) * speed;
             CacheAgent.EntityBody = entityBody;
         }
