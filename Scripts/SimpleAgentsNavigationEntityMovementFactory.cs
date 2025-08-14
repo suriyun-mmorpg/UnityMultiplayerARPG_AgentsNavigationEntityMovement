@@ -1,3 +1,4 @@
+using ProjectDawn.Navigation.Hybrid;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -50,9 +51,12 @@ namespace MultiplayerARPG
             capsuleCollider.center = Vector3.zero + (Vector3.up * capsuleCollider.height * 0.5f);
             capsuleCollider.isTrigger = true;
 
-            AgentsNavigationAgent navMeshAgent = obj.AddComponent<AgentsNavigationAgent>();
-            navMeshAgent.height = bounds.size.y;
-            navMeshAgent.radius = Mathf.Min(bounds.extents.x, bounds.extents.z);
+            // NOTE: implement this later
+            /*
+            AgentCylinderShapeAuthoring navMeshAgent = obj.AddComponent<AgentCylinderShapeAuthoring>();
+            navMeshAgent.Height = bounds.size.y;
+            navMeshAgent.Radius = Mathf.Min(bounds.extents.x, bounds.extents.z);
+            */
 
             return obj.AddComponent<SimpleAgentsNavigationEntityMovement>();
         }
