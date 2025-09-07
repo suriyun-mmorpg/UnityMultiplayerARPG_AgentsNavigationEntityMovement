@@ -23,6 +23,7 @@ namespace MultiplayerARPG
     {
         protected const float MIN_MAGNITUDE_TO_DETERMINE_MOVING = 0.01f;
         protected const float MIN_DIRECTION_SQR_MAGNITUDE = 0.0001f;
+        protected const float MIN_DISTANCE_TO_TELEPORT = 0.1f;
         protected static readonly ProfilerMarker s_UpdateProfilerMarker = new ProfilerMarker("SimpleNavMeshEntityMovement - Update");
 
         [Header("Dashing")]
@@ -296,13 +297,38 @@ namespace MultiplayerARPG
                 Logging.LogWarning(nameof(NavMeshEntityMovement), $"Teleport function shouldn't be called at client {name}");
                 return;
             }
+            if (_serverTeleportState != MovementTeleportState.None)
+            {
+                // Still waiting for teleport responding
+                return;
+            }
             await OnTeleport(position, rotation, stillMoveAfterTeleport);
         }
 
         protected async UniTask OnTeleport(Vector3 position, Quaternion rotation, bool stillMoveAfterTeleport)
         {
-            _inputDirection = Vector3.zero;
-
+            if (Vector3.Distance(position, EntityTransform.position) <= MIN_DISTANCE_TO_TELEPORT)
+            {
+                // Too close to teleport
+                return;
+            }
+            // Prepare before move
+            if (IsServer && !IsOwnerClientOrOwnedByServer)
+            {
+                _serverTeleportState = MovementTeleportState.WaitingForResponse;
+            }
+            if (TeleportPreparer != null)
+            {
+                await TeleportPreparer.PrepareToTeleport(position, rotation);
+            }
+            // Move character to target position
+            Vector3 beforeWarpDest = CacheAgent.EntityBody.Destination;
+            transform.position = position;
+            if (!stillMoveAfterTeleport)
+                CacheAgent.Stop();
+            if (stillMoveAfterTeleport)
+                CacheAgent.SetDestinationDeferred(beforeWarpDest);
+            TurnImmediately(rotation.eulerAngles.y);
             // Prepare teleporation states
             if (IsServer && !IsOwnerClientOrOwnedByServer)
             {
@@ -315,23 +341,11 @@ namespace MultiplayerARPG
             {
                 _clientTeleportState = MovementTeleportState.Responding;
             }
-            if (TeleportPreparer != null)
-                await TeleportPreparer.PrepareToTeleport(position, rotation);
-
-            // Move character to target position
-            _inputDirection = Vector3.zero;
-            Vector3 beforeWarpDest = CacheAgent.EntityBody.Destination;
-            transform.position = position;
-            if (!stillMoveAfterTeleport)
-                CacheAgent.Stop();
-            if (stillMoveAfterTeleport)
-                CacheAgent.SetDestinationDeferred(beforeWarpDest);
-            TurnImmediately(rotation.eulerAngles.y);
         }
 
         public async UniTask WaitClientTeleportConfirm()
         {
-            while (this != null && _serverTeleportState.Has(MovementTeleportState.WaitingForResponse))
+            while (this != null && _serverTeleportState != MovementTeleportState.None)
             {
                 await UniTask.Delay(100);
             }
@@ -339,7 +353,7 @@ namespace MultiplayerARPG
 
         public bool IsWaitingClientTeleportConfirm()
         {
-            return _serverTeleportState.Has(MovementTeleportState.WaitingForResponse);
+            return _serverTeleportState != MovementTeleportState.None;
         }
 
         protected float GetPathRemainingDistance()
@@ -470,7 +484,7 @@ namespace MultiplayerARPG
             EntityTransform.eulerAngles = new Vector3(0f, _yAngle, 0f);
         }
 
-        public bool WriteClientState(long writeTimestamp, NetDataWriter writer, out bool shouldSendReliably)
+        public bool WriteClientState(uint writeTick, NetDataWriter writer, out bool shouldSendReliably)
         {
             if (_clientTeleportState.Has(MovementTeleportState.Responding))
             {
@@ -483,7 +497,7 @@ namespace MultiplayerARPG
             return false;
         }
 
-        public bool WriteServerState(long writeTimestamp, NetDataWriter writer, out bool shouldSendReliably)
+        public bool WriteServerState(uint writeTick, NetDataWriter writer, out bool shouldSendReliably)
         {
             if (_serverTeleportState.Has(MovementTeleportState.Requesting))
             {
@@ -500,7 +514,7 @@ namespace MultiplayerARPG
             return false;
         }
 
-        public void ReadClientStateAtServer(long peerTimestamp, NetDataReader reader)
+        public void ReadClientStateAtServer(uint peerTick, NetDataReader reader)
         {
             MovementTeleportState movementTeleportState = (MovementTeleportState)reader.GetByte();
             if (movementTeleportState.Has(MovementTeleportState.Responding))
@@ -510,7 +524,7 @@ namespace MultiplayerARPG
             }
         }
 
-        public async void ReadServerStateAtClient(long peerTimestamp, NetDataReader reader)
+        public async void ReadServerStateAtClient(uint peerTick, NetDataReader reader)
         {
             MovementTeleportState movementTeleportState = (MovementTeleportState)reader.GetByte();
             if (movementTeleportState.Has(MovementTeleportState.Requesting))
