@@ -29,7 +29,7 @@ namespace MultiplayerARPG
         [Header("Dashing")]
         public EntityMovementForceApplierData dashingForceApplier = EntityMovementForceApplierData.CreateDefault();
 
-        public LiteNetLibTransform CacheNetworkedTransform { get; protected set; }
+        public LiteNetLibTransform NetworkedTransform { get; protected set; }
         public AgentAuthoring CacheAgent { get; private set; }
         public AgentNavMeshAuthoring CacheAgentNavMesh { get; private set; }
         public AgentCylinderShapeAuthoring CacheAgentShape { get; private set; }
@@ -69,7 +69,7 @@ namespace MultiplayerARPG
         public override void EntityAwake()
         {
             // Prepare nav mesh agent component
-            CacheNetworkedTransform = gameObject.GetOrAddComponent<LiteNetLibTransform>();
+            NetworkedTransform = gameObject.GetOrAddComponent<LiteNetLibTransform>();
             CacheAgent = gameObject.GetOrAddComponent<AgentAuthoring>();
             CacheAgentNavMesh = gameObject.GetOrAddComponent<AgentNavMeshAuthoring>();
             CacheAgentShape = gameObject.GetOrAddComponent<AgentCylinderShapeAuthoring>();
@@ -82,10 +82,11 @@ namespace MultiplayerARPG
                 rigidBody.isKinematic = true;
             }
             // Setup
-            CacheNetworkedTransform.syncByOwnerClient = true;
-            CacheNetworkedTransform.onWriteSyncBuffer += CacheNetworkedTransform_onWriteSyncBuffer;
-            CacheNetworkedTransform.onReadInterpBuffer += CacheNetworkedTransform_onReadInterpBuffer;
-            CacheNetworkedTransform.onInterpolate += CacheNetworkedTransform_onInterpolate;
+            NetworkedTransform.syncByOwnerClient = true;
+            NetworkedTransform.onWriteSyncBuffer += NetworkedTransform_onWriteSyncBuffer;
+            NetworkedTransform.onReadInterpBuffer += NetworkedTransform_onReadInterpBuffer;
+            NetworkedTransform.onValidateInterpolation += NetworkedTransform_onValidateInterpolation;
+            NetworkedTransform.onInterpolate += NetworkedTransform_onInterpolate;
             CacheAgent.enabled = false;
             _yAngle = _targetYAngle = EntityTransform.eulerAngles.y;
             _lookRotationApplied = true;
@@ -98,9 +99,10 @@ namespace MultiplayerARPG
 
         public override void EntityOnDestroy()
         {
-            CacheNetworkedTransform.onWriteSyncBuffer -= CacheNetworkedTransform_onWriteSyncBuffer;
-            CacheNetworkedTransform.onReadInterpBuffer -= CacheNetworkedTransform_onReadInterpBuffer;
-            CacheNetworkedTransform.onInterpolate -= CacheNetworkedTransform_onInterpolate;
+            NetworkedTransform.onWriteSyncBuffer -= NetworkedTransform_onWriteSyncBuffer;
+            NetworkedTransform.onReadInterpBuffer -= NetworkedTransform_onReadInterpBuffer;
+            NetworkedTransform.onValidateInterpolation -= NetworkedTransform_onValidateInterpolation;
+            NetworkedTransform.onInterpolate -= NetworkedTransform_onInterpolate;
         }
 
         public override void OnSetOwnerClient(bool isOwnerClient)
@@ -123,24 +125,34 @@ namespace MultiplayerARPG
             return Entity.IsOwnerClientOrOwnedByServer;
         }
 
-        protected void CacheNetworkedTransform_onWriteSyncBuffer(NetDataWriter writer, uint tick)
+        protected void NetworkedTransform_onWriteSyncBuffer(NetDataWriter writer, uint tick)
         {
-            writer.Put((byte)MovementState);
-            writer.Put((byte)ExtraMovementState);
+            writer.PutPackedUInt((uint)MovementState);
+            writer.PutPackedUInt((uint)ExtraMovementState);
         }
 
-        protected void CacheNetworkedTransform_onReadInterpBuffer(NetDataReader reader, uint tick)
+        protected void NetworkedTransform_onReadInterpBuffer(NetDataReader reader, uint tick)
         {
             _interpExtra[tick] = new System.ValueTuple<MovementState, ExtraMovementState>(
-                (MovementState)reader.GetByte(),
-                (ExtraMovementState)reader.GetByte());
+                (MovementState)reader.GetPackedUInt(),
+                (ExtraMovementState)reader.GetPackedUInt());
             while (_interpExtra.Count > 30)
             {
                 _interpExtra.RemoveAt(0);
             }
         }
 
-        protected void CacheNetworkedTransform_onInterpolate(LiteNetLibTransform.TransformData interpFromData, LiteNetLibTransform.TransformData interpToData, float interpTime)
+        private bool NetworkedTransform_onValidateInterpolation(LiteNetLibTransform.TransformData interpFromData, LiteNetLibTransform.TransformData interpToData, LiteNetLibTransform.TransformData currentData, float interpTime)
+        {
+            if (IsServer && _serverTeleportState != MovementTeleportState.None)
+            {
+                // Waiting for client teleport confirmation
+                return false;
+            }
+            return true;
+        }
+
+        protected void NetworkedTransform_onInterpolate(LiteNetLibTransform.TransformData interpFromData, LiteNetLibTransform.TransformData interpToData, float interpTime)
         {
             if (interpTime <= 0.75f)
             {
