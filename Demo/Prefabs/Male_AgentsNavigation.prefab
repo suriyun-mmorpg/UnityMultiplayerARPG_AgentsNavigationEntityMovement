@@ -565,6 +565,7 @@ MonoBehaviour:
   assetId: 96f28a7114e6de84a85257772bde960b
   autoAssignSceneObjectIdIfEmpty: 1
   sceneObjectId: Male_AgentsNavigation_1
+  forceNotSceneObject: 0
   networkedObjectId: 0
   syncChannelId: 0
   defaultRpcChannelId: 0
@@ -622,12 +623,14 @@ MonoBehaviour:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   entityTitle: Male (AgentsNavigation)
   entityTitles: []
   syncTitle:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   ownerObjects: []
   nonOwnerObjects: []
   model: {fileID: 0}
@@ -654,10 +657,12 @@ MonoBehaviour:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   currentHp:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   meleeDamageTransform: {fileID: 128530181839769856}
   missileDamageTransform: {fileID: 128530181839769856}
   characterUiTransform: {fileID: 128530181839769633}
@@ -678,91 +683,113 @@ MonoBehaviour:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   level:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   exp:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   currentMp:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   currentStamina:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   currentFood:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   currentWater:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   equipWeaponSet:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   isWeaponsSheathed:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   pitch:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   lookPosition:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
     valueChangeDistance: 0.01
   aimPosition:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   targetEntityId:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   mount:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   selectableWeaponSets:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   attributes:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   skills:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   skillUsages:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   buffs:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   equipItems:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   nonEquipItems:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   summons:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   characterDatabases:
   - {fileID: 11400000, guid: 8c31218a0e7c7604ea751e1a56a13a76, type: 2}
   - {fileID: 11400000, guid: f924bc5e901d46141bb3c3ca9b6ef27a, type: 2}
@@ -778,127 +805,179 @@ MonoBehaviour:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   factionId:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   statPoint:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   skillPoint:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   gold:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   userGold:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   userCash:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   partyId:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   guildId:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
+  persistChannel:
+    _behaviour: {fileID: 0}
+    _elementId: 0
+    logTagName: 
+    isDebug: 0
+  persistMapName:
+    _behaviour: {fileID: 0}
+    _elementId: 0
+    logTagName: 
+    isDebug: 0
+  persistPosition:
+    _behaviour: {fileID: 0}
+    _elementId: 0
+    logTagName: 
+    isDebug: 0
+    valueChangeDistance: 0.01
+  persistSafeArea:
+    _behaviour: {fileID: 0}
+    _elementId: 0
+    logTagName: 
+    isDebug: 0
   respawnMapName:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   respawnPosition:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
     valueChangeDistance: 0.01
   iconDataId:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   frameDataId:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   titleDataId:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   lastDeadTime:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   unmuteTime:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   isPkOn:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   pkPoint:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   consecutivePkKills:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   reputation:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   isWarping:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   hotkeys:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   quests:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   currencies:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   privateBools:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   privateInts:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   privateFloats:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   publicBools:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   publicInts:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   publicFloats:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   guildSkills:
     _behaviour: {fileID: 0}
     _elementId: 0
     logTagName: 
+    isDebug: 0
   writeAddonLog: 0
 --- !u!114 &128530181839777822
 MonoBehaviour:
@@ -1183,14 +1262,6 @@ MonoBehaviour:
       instantiatedObjects: []
     instantiatedObjectGroups: []
     activatingInstantiateObjectIndex: 0
-  - equipSocket: WeaponR
-    transform: {fileID: 128530181839769735}
-    defaultModel: {fileID: 0}
-    instantiatedObjects: []
-    defaultInstantiatedObjectGroup:
-      instantiatedObjects: []
-    instantiatedObjectGroups: []
-    activatingInstantiateObjectIndex: 0
   - equipSocket: ElbowL
     transform: {fileID: 128530181839770442}
     defaultModel: {fileID: 128530181839766603}
@@ -1207,9 +1278,9 @@ MonoBehaviour:
       instantiatedObjects: []
     instantiatedObjectGroups: []
     activatingInstantiateObjectIndex: 0
-  - equipSocket: KneeR
-    transform: {fileID: 128530181839769985}
-    defaultModel: {fileID: 128530181839769431}
+  - equipSocket: ElbowR
+    transform: {fileID: 128530181839770380}
+    defaultModel: {fileID: 128530181839769450}
     instantiatedObjects: []
     defaultInstantiatedObjectGroup:
       instantiatedObjects: []
@@ -1223,25 +1294,17 @@ MonoBehaviour:
       instantiatedObjects: []
     instantiatedObjectGroups: []
     activatingInstantiateObjectIndex: 0
-  - equipSocket: KneeL
-    transform: {fileID: 128530181839769771}
-    defaultModel: {fileID: 128530181839766378}
-    instantiatedObjects: []
-    defaultInstantiatedObjectGroup:
-      instantiatedObjects: []
-    instantiatedObjectGroups: []
-    activatingInstantiateObjectIndex: 0
-  - equipSocket: ElbowR
-    transform: {fileID: 128530181839770380}
-    defaultModel: {fileID: 128530181839769450}
-    instantiatedObjects: []
-    defaultInstantiatedObjectGroup:
-      instantiatedObjects: []
-    instantiatedObjectGroups: []
-    activatingInstantiateObjectIndex: 0
   - equipSocket: HipL
     transform: {fileID: 128530181839770189}
     defaultModel: {fileID: 128530181839766932}
+    instantiatedObjects: []
+    defaultInstantiatedObjectGroup:
+      instantiatedObjects: []
+    instantiatedObjectGroups: []
+    activatingInstantiateObjectIndex: 0
+  - equipSocket: KneeL
+    transform: {fileID: 128530181839769771}
+    defaultModel: {fileID: 128530181839766378}
     instantiatedObjects: []
     defaultInstantiatedObjectGroup:
       instantiatedObjects: []
@@ -1255,9 +1318,9 @@ MonoBehaviour:
       instantiatedObjects: []
     instantiatedObjectGroups: []
     activatingInstantiateObjectIndex: 0
-  - equipSocket: Shield
-    transform: {fileID: 128530181839773635}
-    defaultModel: {fileID: 0}
+  - equipSocket: KneeR
+    transform: {fileID: 128530181839769985}
+    defaultModel: {fileID: 128530181839769431}
     instantiatedObjects: []
     defaultInstantiatedObjectGroup:
       instantiatedObjects: []
@@ -1265,6 +1328,22 @@ MonoBehaviour:
     activatingInstantiateObjectIndex: 0
   - equipSocket: WeaponL
     transform: {fileID: 128530181839770306}
+    defaultModel: {fileID: 0}
+    instantiatedObjects: []
+    defaultInstantiatedObjectGroup:
+      instantiatedObjects: []
+    instantiatedObjectGroups: []
+    activatingInstantiateObjectIndex: 0
+  - equipSocket: WeaponR
+    transform: {fileID: 128530181839769735}
+    defaultModel: {fileID: 0}
+    instantiatedObjects: []
+    defaultInstantiatedObjectGroup:
+      instantiatedObjects: []
+    instantiatedObjectGroups: []
+    activatingInstantiateObjectIndex: 0
+  - equipSocket: Shield
+    transform: {fileID: 128530181839773635}
     defaultModel: {fileID: 0}
     instantiatedObjects: []
     defaultInstantiatedObjectGroup:
