@@ -1,7 +1,7 @@
 using Cysharp.Threading.Tasks;
+using Insthync.ManagedUpdating;
 using LiteNetLib.Utils;
 using LiteNetLibManager;
-using MultiplayerARPG.Updater;
 using ProjectDawn.Navigation;
 using ProjectDawn.Navigation.Hybrid;
 using System.Collections.Generic;
