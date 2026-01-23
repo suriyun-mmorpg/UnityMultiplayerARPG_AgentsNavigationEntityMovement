@@ -465,7 +465,11 @@ namespace MultiplayerARPG
                     SetAgentMoveSpeed(speed);
                     // Turn character to destination
                     if (isMoving && _lookRotationApplied && Entity.CanTurn())
-                        _targetYAngle = Quaternion.LookRotation(math.normalize(CacheAgent.EntityBody.Velocity)).eulerAngles.y;
+                    {
+                        float3 normalizedAgentVelocity = math.normalize(CacheAgent.EntityBody.Velocity);
+                        if (!math.any(math.isnan(normalizedAgentVelocity)))
+                            _targetYAngle = Quaternion.LookRotation(normalizedAgentVelocity).eulerAngles.y;
+                    }
                 }
             }
         }
